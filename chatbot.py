@@ -5,8 +5,6 @@ from six import PY2
 from time import sleep
 from werkzeug.utils import import_string
 
-
-
 from pytools.email import IMAPReceiver, SMTPSender, make_simple_text_message
 
 
@@ -51,6 +49,8 @@ def main():
 
     chatbot = import_string(config.get("BOT", "BOT"))
 
+    sleep_timeout = config.getint("BOT", "SLEEP")
+
     receiver = IMAPReceiver(config.get("GMAIL", "USERNAME"),
                             config.get("GMAIL", "PASSWORD"),
                             config.get("GMAIL", "IMAP_SERVER"))
@@ -81,7 +81,7 @@ def main():
                 sender.send_email(message)
                 logger.info("Response complete")
 
-            sleep(30)
+            sleep(sleep_timeout)
     except KeyboardInterrupt:
         pass
 
