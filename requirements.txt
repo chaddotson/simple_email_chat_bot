@@ -1,1 +1,1 @@
--e git+http://github.com/chaddotson/pytools.git
+-e git+http://github.com/chaddotson/pytools.git#egg=pytools
