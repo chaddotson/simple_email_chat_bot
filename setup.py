@@ -21,7 +21,6 @@ setup(
     author_email='chad@cdotson.com',
     description='',
     install_requires=install_reqs,
-    dependency_links=["git+http://github.com/chaddotson/pytools.git#egg=pytools=0.1.1"],
     entry_points={
         'console_scripts': [
             'simple_email_chat_bot = bin.chatbot:main',
