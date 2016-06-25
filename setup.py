@@ -9,9 +9,7 @@ def read(fname):
 
 
 with open("requirements.txt", "r") as f:
-    install_reqs = map(str.strip, f.readlines())
-
-print(install_reqs)
+    install_reqs = f.readlines()
 
 setup(
     name='simple_email_chat_bot',
