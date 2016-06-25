@@ -14,6 +14,7 @@ logger = getLogger(__name__)
 def get_args():
     parser = ArgumentParser(description='Email-based chatbot.')
     parser.add_argument('-c', '--configuration', help='Chatbot configuration', default='chatbot.cfg')
+    parser.add_argument('-g', '--generate', help='Generate sample chatbot configuration', default=False, action='store_true')
     parser.add_argument('-v', '--verbose', help='Verbose log output', default=False, action='store_true')
     return parser.parse_args()
 
@@ -31,6 +32,23 @@ def get_email_content(email_message):
     return email_from, email_subject, email_body
 
 
+def _generate_sample_configuration():
+    sample_config = RawConfigParser()
+
+    sample_config.add_section("BOT")
+    sample_config.set("BOT", "BOT", "nltk.chat.zen.zen_chatbot")
+    sample_config.set("BOT", "SLEEP", 120)
+
+    sample_config.add_section("EMAIL")
+    sample_config.set("EMAIL", "USERNAME", None)
+    sample_config.set("EMAIL", "PASSWORD", None)
+    sample_config.set("EMAIL", "IMAP_SERVER", None)
+    sample_config.set("EMAIL", "SMTP_SERVER", None)
+    sample_config.set("EMAIL", "SMTP_PORT", 587)
+
+    return sample_config
+
+
 def main():
     logging_config = dict(level=INFO, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 
@@ -45,20 +63,26 @@ def main():
         getLogger('').setLevel(DEBUG)
 
     config = RawConfigParser()
+
+    if args.generate:
+        with open(args.configuration, "w") as f:
+            _generate_sample_configuration().write(f)
+        return
+
     config.read(args.configuration)
 
     chatbot = import_string(config.get("BOT", "BOT"))
 
     sleep_timeout = config.getint("BOT", "SLEEP")
 
-    receiver = IMAPReceiver(config.get("GMAIL", "USERNAME"),
-                            config.get("GMAIL", "PASSWORD"),
-                            config.get("GMAIL", "IMAP_SERVER"))
+    receiver = IMAPReceiver(config.get("EMAIL", "USERNAME"),
+                            config.get("EMAIL", "PASSWORD"),
+                            config.get("EMAIL", "IMAP_SERVER"))
 
-    sender = SMTPSender(config.get("GMAIL", "USERNAME"),
-                        config.get("GMAIL", "PASSWORD"),
-                        config.get("GMAIL", "SMTP_SERVER"),
-                        config.get("GMAIL", "SMTP_PORT"))
+    sender = SMTPSender(config.get("EMAIL", "USERNAME"),
+                        config.get("EMAIL", "PASSWORD"),
+                        config.get("EMAIL", "SMTP_SERVER"),
+                        config.get("EMAIL", "SMTP_PORT"))
 
     try:
         while True:
@@ -73,7 +97,7 @@ def main():
                 chatbot_response = chatbot.respond(email_body)
                 logger.info("Chatting with %s: in: %s out: %s", email_from, email_body, chatbot_response)
 
-                message = make_simple_text_message(from_address=config.get("GMAIL", "USERNAME"),
+                message = make_simple_text_message(from_address=config.get("EMAIL", "USERNAME"),
                                                    to_address=email_from,
                                                    subject=email_subject,
                                                    text=chatbot_response)
