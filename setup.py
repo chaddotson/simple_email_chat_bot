@@ -12,7 +12,7 @@ with open("requirements.txt", "r") as f:
     install_reqs = f.readlines()
 
 setup(
-    name='simple_email_chat_boot',
+    name='simple_email_chat_bot',
     version=version,
     packages=['bin'],
     url='',
