@@ -20,12 +20,12 @@ Generating an example configuration:
 
 .. code-block:: bash
 
-    simple_email_chat_bot -c configuration -g
+    chatbot -c configuration -g
 
 
 Running the chat bot:
 
 .. code-block:: bash
 
-    simple_email_chat_bot -c configuration
+    chatbot -c configuration
 
