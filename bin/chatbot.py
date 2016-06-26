@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 from argparse import ArgumentParser
 from configparser import RawConfigParser
 from logging import basicConfig, getLogger, INFO, DEBUG
@@ -107,6 +109,6 @@ def main():
 
             sleep(sleep_timeout)
     except KeyboardInterrupt:
-        pass
+        return
 
 main()
