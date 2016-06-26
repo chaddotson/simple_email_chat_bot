@@ -1,3 +1,4 @@
 nltk==3.2.1
+https://github.com/chaddotson/pytools/tarball/master#egg=pytools-0.1.1
 six==1.10.0
 Werkzeug==0.11.4
