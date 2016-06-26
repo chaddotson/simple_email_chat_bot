@@ -31,7 +31,7 @@ setup(
     dependency_links=dependency_links,
     entry_points={
         'console_scripts': [
-            'simple_email_chat_bot = bin.chatbot:main',
+            'chatbot = bin.chatbot:main',
         ]
     },
 )
