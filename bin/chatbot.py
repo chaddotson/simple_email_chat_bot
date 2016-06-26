@@ -109,6 +109,6 @@ def main():
 
             sleep(sleep_timeout)
     except KeyboardInterrupt:
-        return
+        exit()
 
 main()
