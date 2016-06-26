@@ -3,6 +3,16 @@ simple_email_chat_bot
 
 This package implements a simple email chat bot.
 
+
+Installing
+----------
+
+.. code-block:: bash
+
+    pip install git+https://github.com/chaddotson/simple_email_chat_bot.git --process-dependency-links --allow-all-external
+
+
+
 From the command line
 ---------------------
 
